@@ -38,3 +38,16 @@ class Ambiente:
                     if self.grilla[nueva_fila][nueva_columna] is None:
                         vecinos.append((nueva_fila, nueva_columna))
         return vecinos
+ # Metodo que entrega vecinos ocupados (para posibles ataques)
+    def obtener_vecinos_ocupados(self, fila, columna):
+        vecinos = []
+        for delta_fila in [-1, 0, 1]:
+            for delta_columna in [-1, 0, 1]:
+                if delta_fila == 0 and delta_columna == 0:
+                    continue
+                nueva_fila = fila + delta_fila
+                nueva_columna = columna + delta_columna
+                if 0 <= nueva_fila < self.filas and 0 <= nueva_columna < self.columnas:
+                    if self.grilla[nueva_fila][nueva_columna] is not None:
+                        vecinos.append((nueva_fila, nueva_columna))
+        return vecinos
