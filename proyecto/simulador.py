@@ -1,0 +1,1 @@
+# Clase que conecta el simulador con la coloniaS
