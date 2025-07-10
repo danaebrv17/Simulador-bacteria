@@ -40,3 +40,12 @@ fig, ax = plt.subplots(figsize=(6, 6))#crea figura y eje para graficar con matpl
     ax.set_xticklabels([])
     ax.set_yticklabels([])
     ax.grid(color="gray", linestyle="-", linewidth=0.5)
+ for fila in range(ambiente.filas):
+        for columna in range(ambiente.columnas):
+            valor = grilla[fila, columna]
+            if valor > 0:
+                ax.text(columna, fila, int(valor), va="center", ha="center", color="white")
+
+    plt.title("Grilla de bacterias - Eventos biologicos")
+    plt.tight_layout()
+    plt.show()
