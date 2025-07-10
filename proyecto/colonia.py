@@ -79,3 +79,12 @@ class Colonia:
                     else:
                         muertas += 1
         print(f"Total: {total}, Vivas: {vivas}, Muertas: {muertas}, Resistentes: {resistentes}")
+ # Exportar reporte CSV
+    def exportar_csv(self, nombre_archivo="reporte.csv"):
+        with open(nombre_archivo, mode="w") as archivo: #creo o reemplazo si ya existe 
+            escritor = csv.writer(archivo)
+            escritor.writerow(["ID", "Raza", "Energia", "Resistente", "Viva"])
+            for fila in self.ambiente.grilla: #recorro cada fila
+                for celda in fila:
+                    if celda is not None: #verfico que la bacteria este viva
+                        escritor.writerow([celda.id, celda.raza, celda.energia, celda.resistente, celda.viva])
