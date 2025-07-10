@@ -27,10 +27,38 @@ class Colonia:
             for columna in range(self.ambiente.columnas):
                 bacteria = self.ambiente.grilla[fila][columna] #accedo a celda de la grilla
                 if bacteria is not None and bacteria.viva: #si hay bacteria viva se ejecutan los eventos 
-
                     # Alimentar
+                    nutrientes = self.ambiente.nutrientes[fila][columna]
+                    consumido = bacteria.alimentar(nutrientes)
+                    self.ambiente.nutrientes[fila][columna] = max(nutrientes - consumido, 0)
+
                     # Mutar
+                    antes = bacteria.resistente # si la bacteria era resistente antes de mutar
+                    bacteria.mutar() #llamo a metodo mutar en bacteria
+                    if not antes and bacteria.resistente: #verifico que no era resistente 
+                        eventos["mutaciones"] += 1
+
                     # Reproducirse
+                    hija = bacteria.dividirse(self.contador_id) #llamo a metodo div en bacteria y si tiene energia devuelve hija
+                    if hija:
+                        vecinos_libres = self.ambiente.obtener_vecinos_libres(fila, columna) #veo que celdas al rededor estan vacias
+                        if vecinos_libres:
+                            nueva_fila, nueva_columna = random.choice(vecinos_libres) #elijo una de esas celdas al azar 
+                            self.ambiente.grilla[nueva_fila][nueva_columna] = hija #coloco a bacteria hija
+                            nuevas_bacterias.append(hija) #agredo a lista de bacterias nuevas
+                            self.contador_id += 1 
+                            eventos["divisiones"] += 1
+
                     # Atacar
-                    
+                    vecinos_ocupados = self.ambiente.obtener_vecinos_ocupados(fila, columna)#radio de ataque
+                    if vecinos_ocupados: #verifico si una bacteria vecina puede ser atacada
+                        objetivo_fila, objetivo_columna = random.choice(vecinos_ocupados) #elijo al azar una de ellas
+                        objetivo = self.ambiente.grilla[objetivo_fila][objetivo_columna]
+                        if objetivo is not None and objetivo.viva and objetivo.id != bacteria.id: #existe? esta viva? no se ataque sola
+                            objetivo.recibir_ataque() #mata bacteria si no es resistente
+                            if not objetivo.viva:
+                                eventos["muertes"] += 1
+                            eventos["ataques"] += 1
+
+        self.bacterias.extend(nuevas_bacterias)           
         return eventos   
