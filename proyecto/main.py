@@ -21,4 +21,15 @@ class VentanaSimulacion(Gtk.ApplicationWindow): #ventana GTK donde usuario vera 
         self.simulador = Simulador(self.colonia) #simulador contendra colonia 
         self.turno = 0
         self.turno_maximo = 5
-        nueva = Bacteria(self.colonia.contador_id, "A") #creo bacteria con su id y raza
+        
+       def agregar_bacterias_iniciales(self, cantidad):
+        contador = 0
+        while contador < cantidad:
+            fila = random.randint(0, self.ambiente.filas - 1)
+            columna = random.randint(0, self.ambiente.columnas - 1)#busco posiciones vacias
+            if self.ambiente.grilla[fila][columna] is None: #al encontar una vacia coloca bacteria ahi 
+                nueva = Bacteria(self.colonia.contador_id, "A") #creo bacteria con su id y raza
+                self.ambiente.grilla[fila][columna] = nueva # se agrega en una celda vacia de la grilla
+                self.colonia.bacterias.append(nueva) # tambien se agrega a la lista de bacterias de la colonia 
+                self.colonia.contador_id += 1 #incremento para nuevo id 
+                contador += 1
