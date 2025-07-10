@@ -42,3 +42,8 @@ class Bacteria:
         if self.viva and not self.resistente: #mutara solo si esta viva y no es resistente
             if random.random() < probabilidad: #si el numero es menor a 0.1 se vuelve resistente
                 self.resistente = True
+   # Metodo para ser atacada
+    def recibir_ataque(self): 
+        if self.viva and not self.resistente: #si no es resiste el ataque muere
+            self.morir()
+        self.fue_atacada = True              
