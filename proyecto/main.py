@@ -33,3 +33,16 @@ class VentanaSimulacion(Gtk.ApplicationWindow): #ventana GTK donde usuario vera 
                 self.colonia.bacterias.append(nueva) # tambien se agrega a la lista de bacterias de la colonia 
                 self.colonia.contador_id += 1 #incremento para nuevo id 
                 contador += 1
+
+def avanzar_turno(self, widget):
+        if self.turno < self.turno_maximo:
+            eventos = self.simulador.avanzar_turno(consola=False) #llamo al simulador para ejecutar tuno
+            linea = f"Turno {self.turno + 1}: {eventos['divisiones']} divisiones, {eventos['mutaciones']} mutaciones, {eventos['muertes']} muertes, {eventos['ataques']} ataques\n"
+            self.mostrar_texto(linea)
+            visualizar_grilla(self.ambiente)#muestra la grilla actualizada con los nuevos estados
+            self.turno += 1
+            self.reiniciar_flags_visuales()#limpio los flags
+        else:
+            self.mostrar_texto("simulacion completada.\n")
+            self.colonia.exportar_csv() #guado el reporte csv
+            self.boton_turno.set_sensitive(False)#desactivo el boton avanzar turno
