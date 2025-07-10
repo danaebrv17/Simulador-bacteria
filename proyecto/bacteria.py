@@ -7,20 +7,22 @@
 # Clase que representa una bacteria individual
 class Bacteria:
     def __init__(self, id_bacteria, raza):
-        # identificador unico de la bacteria
-        self.id = id_bacteria
+        self.id = id_bacteria              # id unico
+        self.raza = raza                   #raza
+        self.energia = energia             # nivel de energia
+        self.resistente = resistente       # Si es resistente a ataques o no
+        self.viva = True                   # estado de vida
+        self.recien_nacida = False         # para marcar que es hija
+        self.fue_atacada = False           # para marcar que fue atacada
+# Metodo para alimentarse con nutrientes disponibles
+    def alimentar(self, nutrientes_disponibles):
+        if self.viva:
+            energia_ganada = min(nutrientes_disponibles, 5)
+            self.energia += energia_ganada
+            return energia_ganada
+        return 0
 
-        # raza de la bacteria (por ejemplo: "A" o "B")
-        self.raza = raza
-
-        # energia actual de la bacteria
-        self.energia = 5
-
-        # si la bacteria es resistente a ataques o no
-        self.resistente = False
-
-        # si la bacteria esta viva o no
-        self.viva = True
-
-        self.recien_nacida = False
-        self.fue_atacada = False
+    # Metodo para morir (por ataque o falta de energia)
+    def morir(self):
+        self.viva = False
+        self.energia = 0
