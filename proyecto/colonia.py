@@ -61,4 +61,21 @@ class Colonia:
                             eventos["ataques"] += 1
 
         self.bacterias.extend(nuevas_bacterias)           
-        return eventos   
+        return eventos 
+        # Reportar estado al usuario
+    def reporte_estado(self):
+        total = 0
+        vivas = 0
+        resistentes = 0
+        muertas = 0
+        for fila in self.ambiente.grilla: #busco en las filas 
+            for celda in fila: #busco los elementos en cada fila
+                if celda is not None: # analiso si la celda tiene bacteria
+                    total += 1
+                    if celda.viva:
+                        vivas += 1
+                        if celda.resistente:
+                            resistentes += 1
+                    else:
+                        muertas += 1
+        print(f"Total: {total}, Vivas: {vivas}, Muertas: {muertas}, Resistentes: {resistentes}")
