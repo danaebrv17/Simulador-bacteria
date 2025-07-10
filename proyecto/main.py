@@ -46,3 +46,27 @@ def avanzar_turno(self, widget):
             self.mostrar_texto("simulacion completada.\n")
             self.colonia.exportar_csv() #guado el reporte csv
             self.boton_turno.set_sensitive(False)#desactivo el boton avanzar turno
+def mostrar_texto(self, texto):
+        fin = self.texto_eventos.get_end_iter()
+        self.texto_eventos.insert(fin, texto)
+
+    def reiniciar_flags_visuales(self):
+        for fila in self.ambiente.grilla: #recorro la grilla y reinicnia los flags para mostar eventos actuales
+            for celda in fila:
+                if celda is not None:
+                    celda.recien_nacida = False
+                    celda.fue_atacada = False
+
+class Aplicacion(Gtk.Application):
+    def __init__(self):
+        super().__init__(application_id="org.simulador.bacterias")
+    def do_activate(self):
+        ventana = VentanaSimulacion(self)
+        ventana.present()
+
+def main():
+    app = Aplicacion()
+    app.run()
+
+if __name__ == "__main__":
+    main()
