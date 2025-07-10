@@ -1,4 +1,3 @@
-#crear bacteria , ambiente y colonia
 from ambiente import Ambiente
 from bacteria import Bacteria
 from colonia import Colonia
@@ -21,8 +20,32 @@ class VentanaSimulacion(Gtk.ApplicationWindow): #ventana GTK donde usuario vera 
         self.simulador = Simulador(self.colonia) #simulador contendra colonia 
         self.turno = 0
         self.turno_maximo = 5
-        
-       def agregar_bacterias_iniciales(self, cantidad):
+
+        self.agregar_bacterias_iniciales(10)
+        #caja para organizar widgets 
+        contenedor = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=10, margin_top=12, margin_bottom=12, margin_start=12, margin_end=12)
+
+        self.boton_turno = Gtk.Button(label="avanzar turno")
+        self.boton_turno.connect("clicked", self.avanzar_turno)# al hacer click se avanzara el turno
+        contenedor.append(self.boton_turno)
+
+        self.texto_eventos = Gtk.TextBuffer() #almaceno datos de los eventos
+        vista_texto = Gtk.TextView(buffer=self.texto_eventos)#muestro los eventos almacenados
+        vista_texto.set_editable(False)
+        vista_texto.set_wrap_mode(Gtk.WrapMode.WORD)
+
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_vexpand(True)
+        scroll.set_child(vista_texto)
+        contenedor.append(scroll)
+
+        self.set_child(contenedor)
+
+        self.mostrar_texto("simulacion iniciada las bacterias fueron colocadas\n")
+        self.colonia.reporte_estado()#muestro estado inicial de la colonia
+        visualizar_grilla(self.ambiente)
+
+    def agregar_bacterias_iniciales(self, cantidad):
         contador = 0
         while contador < cantidad:
             fila = random.randint(0, self.ambiente.filas - 1)
@@ -34,7 +57,7 @@ class VentanaSimulacion(Gtk.ApplicationWindow): #ventana GTK donde usuario vera 
                 self.colonia.contador_id += 1 #incremento para nuevo id 
                 contador += 1
 
-def avanzar_turno(self, widget):
+    def avanzar_turno(self, widget):
         if self.turno < self.turno_maximo:
             eventos = self.simulador.avanzar_turno(consola=False) #llamo al simulador para ejecutar tuno
             linea = f"Turno {self.turno + 1}: {eventos['divisiones']} divisiones, {eventos['mutaciones']} mutaciones, {eventos['muertes']} muertes, {eventos['ataques']} ataques\n"
@@ -46,7 +69,8 @@ def avanzar_turno(self, widget):
             self.mostrar_texto("simulacion completada.\n")
             self.colonia.exportar_csv() #guado el reporte csv
             self.boton_turno.set_sensitive(False)#desactivo el boton avanzar turno
-def mostrar_texto(self, texto):
+
+    def mostrar_texto(self, texto):
         fin = self.texto_eventos.get_end_iter()
         self.texto_eventos.insert(fin, texto)
 
