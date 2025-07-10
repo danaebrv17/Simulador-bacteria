@@ -24,3 +24,17 @@ class Ambiente:
             for columna in range(columnas):
                 fila_nutrientes.append(random.randint(1, 5))
             self.nutrientes.append(fila_nutrientes)
+            
+ # Metodo que entrega vecinos libres de una celda dada
+    def obtener_vecinos_libres(self, fila, columna):
+        vecinos = []
+        for delta_fila in [-1, 0, 1]:
+            for delta_columna in [-1, 0, 1]:
+                if delta_fila == 0 and delta_columna == 0:
+                    continue
+                nueva_fila = fila + delta_fila
+                nueva_columna = columna + delta_columna
+                if 0 <= nueva_fila < self.filas and 0 <= nueva_columna < self.columnas:
+                    if self.grilla[nueva_fila][nueva_columna] is None:
+                        vecinos.append((nueva_fila, nueva_columna))
+        return vecinos
