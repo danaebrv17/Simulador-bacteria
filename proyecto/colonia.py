@@ -12,4 +12,25 @@ class Colonia:
         self.ambiente = ambiente
         self.bacterias = []
         self.contador_id = 1
-      
+        
+ # Metodo principal que ejecuta un turno de simulacion
+    def paso(self):
+        nuevas_bacterias = [] #lista psrs guardar a bacterias hijas
+        eventos = {
+            "divisiones": 0,
+            "mutaciones": 0,
+            "muertes": 0,
+            "ataques": 0
+        }
+        #recorro la grilla
+        for fila in range(self.ambiente.filas):
+            for columna in range(self.ambiente.columnas):
+                bacteria = self.ambiente.grilla[fila][columna] #accedo a celda de la grilla
+                if bacteria is not None and bacteria.viva: #si hay bacteria viva se ejecutan los eventos 
+
+                    # Alimentar
+                    # Mutar
+                    # Reproducirse
+                    # Atacar
+                    
+        return eventos   
