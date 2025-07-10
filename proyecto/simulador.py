@@ -23,3 +23,20 @@ def visualizar_grilla(ambiente):
                     grilla[fila, columna] = 1
 
     cmap = plt.cm.get_cmap("Set1", 6) # selecciono paleta de 6 colores
+fig, ax = plt.subplots(figsize=(6, 6))#crea figura y eje para graficar con matplotib
+    cax = ax.matshow(grilla, cmap=cmap, vmin=0, vmax=5) #muestra la grilla como imagen de colores
+        #creo leyenda personalizada
+    leyenda = [
+        Patch(facecolor=cmap(1/6), label="Viva"),
+        Patch(facecolor=cmap(2/6), label="Muerta"),
+        Patch(facecolor=cmap(3/6), label="Resistente"),
+        Patch(facecolor=cmap(4/6), label="Hija"),
+        Patch(facecolor=cmap(5/6), label="Atacada"),
+    ]
+    ax.legend(handles=leyenda, loc="upper right", bbox_to_anchor=(1.3, 1)) #agrega leyenda al grafico
+    #rejilla visual para dividir las celdas
+    ax.set_xticks(np.arange(0, ambiente.columnas, 1))
+    ax.set_yticks(np.arange(0, ambiente.filas, 1))
+    ax.set_xticklabels([])
+    ax.set_yticklabels([])
+    ax.grid(color="gray", linestyle="-", linewidth=0.5)
